@@ -1,0 +1,127 @@
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.kept)
+    alias(libs.plugins.hilt)
+
+}
+
+apply from: "$rootProject.projectDir/commons.gradle"
+//Declaring a variable to points to the ext list we added to in the common gradle
+def globalDependencies = rootProject.ext
+
+android {
+    namespace 'com.multimodule'
+    compileSdk rootProject.compileSdkVersion
+
+    defaultConfig {
+        applicationId "com.multimodule"
+        minSdk rootProject.minSdkVersion
+        targetSdk rootProject.targetSdkVersion
+        versionCode rootProject.versionCode
+        versionName rootProject.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    packaging {
+        resources {
+            excludes.add("META-INF/gradle/incremental.annotation.processors")
+        }
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField "String", "VERSION_NAME" , "\"${defaultConfig.versionName}\""
+            buildConfigField "String", "CDN_HOST" , "\"https://beta-cdn.example.com\""
+
+            resValue "string", "app_name", "MultiModule Beta"
+
+            manifestPlaceholders = [
+                    hostName : "beta.multimodule.com",
+                    appIcon  : "@mipmap/ic_launcher",
+                    appIconRound  : "@mipmap/ic_launcher_round"
+            ]
+
+            //            signingConfig signingConfigs.debug
+
+            packagingOptions {
+                // If the CPU architecture is ARMv7 or ARMv8, add the following configuration:
+                doNotStrip "*/arm64-v8a/libucs-credential.so"
+                doNotStrip "*/armeabi-v7a/libucs-credential.so"
+                // If the CPU architecture is x86, add the following configuration:
+                doNotStrip "*/x86/libucs-credential.so"
+                doNotStrip "*/x86_64/libucs-credential.so"
+            }
+        }
+        release {
+            buildConfigField "String", "VERSION_NAME" , "\"${defaultConfig.versionName}\""
+            buildConfigField "String", "CDN_HOST" , "\"https://cdn.example.com\""
+
+            resValue "string", "app_name", "MultiModule"
+
+            manifestPlaceholders = [
+                    hostName : "multimodule.com",
+                    appIcon  : "@mipmap/ic_launcher",
+                    appIconRound  : "@mipmap/ic_launcher_round"
+            ]
+
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            packagingOptions {
+                // If the CPU architecture is ARMv7 or ARMv8, add the following configuration:
+                doNotStrip "*/arm64-v8a/libucs-credential.so"
+                doNotStrip "*/armeabi-v7a/libucs-credential.so"
+                // If the CPU architecture is x86, add the following configuration:
+                doNotStrip "*/x86/libucs-credential.so"
+                doNotStrip "*/x86_64/libucs-credential.so"
+            }
+//            signingConfig signingConfigs.config
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+    dataBinding {
+        enable = true
+    }
+    viewBinding {
+        enable = true
+    }
+    buildFeatures {
+        viewBinding = true
+    }
+}
+
+dependencies {
+    Map<String, String> dependencies = globalDependencies.commonDependencies
+    implementation project(':core')
+    implementation project(':base')
+    implementation project(':framework')
+    implementation project(':features:fullscreen')
+
+    implementation dependencies.appCompat
+    implementation dependencies.coreKtx
+    implementation dependencies.material
+    implementation dependencies.junit
+    implementation dependencies.espressoCore
+    implementation dependencies.constraintLayout
+
+    implementation dependencies.hilt
+    kapt dependencies.kaptHilt
+
+    implementation dependencies.navigationFragment
+    implementation dependencies.navigationUi
+
+
+    implementation dependencies.retrofit
+    implementation dependencies.retrofitGsonConverter
+    implementation dependencies.okHttp3Logging
+
+
+
+}

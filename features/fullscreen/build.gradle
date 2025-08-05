@@ -1,0 +1,18 @@
+plugins {
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.kept)
+}
+
+//Declaring a variable to points to the ext list we added to in the common gradle
+def globalDependencies = rootProject.ext
+apply from: "$rootProject.projectDir/commons.gradle"
+apply from: "$rootProject.projectDir/commons.features.gradle"
+android {
+    namespace 'com.multimodule.fullscreen'
+}
+dependencies {
+    Map<String, String> dependencies = globalDependencies.commonDependencies
+
+    implementation dependencies.material
+}

@@ -1,0 +1,54 @@
+//write only those dependencies which are the part of only all features modules
+
+
+def globalDependencies = rootProject.ext
+
+android{
+    compileSdk rootProject.compileSdkVersion
+
+    defaultConfig{
+        minSdk rootProject.minSdkVersion
+        targetSdk rootProject.targetSdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+    dataBinding {
+        enabled = true
+    }
+    viewBinding {
+        enabled = true
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+dependencies {
+    Map<String, String> dependencies = globalDependencies.commonDependencies
+    implementation project(":core")
+    implementation project(":base")
+    implementation project(":commons")
+
+    implementation dependencies.constraintLayout
+    implementation dependencies.hilt
+    kapt dependencies.kaptHilt
+    implementation dependencies.navigationFragment
+    implementation dependencies.navigationUi
+    implementation dependencies.coroutineCore
+    implementation dependencies.gson
+    implementation dependencies.coreKtx
+}

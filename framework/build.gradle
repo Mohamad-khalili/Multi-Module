@@ -1,0 +1,56 @@
+plugins {
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.kept)
+
+    alias(libs.plugins.hilt)
+
+}
+
+//Declaring a variable to points to the ext list we added to in the common gradle
+def globalDependencies = rootProject.ext
+apply from: "$rootProject.projectDir/commons.gradle"
+
+android {
+    namespace 'com.multimodule.framework'
+
+    compileSdk rootProject.compileSdkVersion
+
+    defaultConfig {
+        minSdk rootProject.minSdkVersion
+        targetSdk rootProject.targetSdkVersion
+        versionName rootProject.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+}
+
+dependencies {
+    implementation project(":core")
+    implementation project(":commons")
+    implementation project(":base")
+
+    Map<String, String> dependencies = globalDependencies.commonDependencies
+
+    implementation dependencies.hilt
+    kapt dependencies.kaptHilt
+    implementation dependencies.retrofit
+    implementation dependencies.retrofitGsonConverter
+    implementation dependencies.okHttp3Logging
+    implementation dependencies.coroutineCore
+}

@@ -1,0 +1,94 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+    }
+//
+//    dependencies {
+//        classpath libs.hilt.android.gradle.plugin
+//
+//    }
+}
+
+
+plugins {
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.jetbrains.kotlin.jvm) apply false
+    alias(libs.plugins.hilt) apply false
+}
+
+
+subprojects {
+    tasks.withType(KotlinCompile).tap {
+        configureEach {
+            kotlinOptions.jvmTarget = "11"
+        }
+    }
+}
+
+ext {
+    minSdkVersion = 35
+    targetSdkVersion = 35
+    compileSdkVersion = 35
+    versionCode = 100
+    versionName = "1.0.0"
+    hiltVersion = "1.1.1"
+    coreKtx = "1.16.0"
+    junit = "4.13.2"
+    junitVersion = "1.2.1"
+    espressoCoreVersion = "3.6.1"
+    appCompatVersion = "1.7.1"
+    materialVersion = "1.12.0"
+    activity = "1.10.1"
+    constraintLayoutVersion = "2.2.1"
+    jetbrainsKotlinJvm = "1.9.24"
+    hiltVersion = '2.57'
+    navVersion = "2.9.3"
+    retrofitVersion = "3.0.0"
+    okHttpVersion = "5.1.0"
+    glideVersion = "4.16.0"
+    lifecycleVersion = "2.9.2"
+    googleGsonVersion = "2.13.1"
+    coroutineCoreVersion = "1.10.2"
+    javaInjectVersion = '1'
+
+
+    commonDependencies = [
+            appCompat            : "androidx.appcompat:appcompat:$appCompatVersion",
+            coreKtx              : "androidx.core:core-ktx:$coreKtx",
+            material             : "com.google.android.material:material:$materialVersion",
+            junit                : "junit:junit:$junitVersion",
+            espressoCore         : "androidx.test.espresso:espresso-core:$espressoCoreVersion",
+            constraintLayout     : "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion",
+            hilt                 : "com.google.dagger:hilt-android:$hiltVersion",
+            kaptHilt             : "com.google.dagger:hilt-android-compiler:$hiltVersion",
+
+            navigationFragment   : "androidx.navigation:navigation-fragment-ktx:$navVersion",
+            navigationUi         : "androidx.navigation:navigation-ui-ktx:$navVersion",
+            retrofit             : "com.squareup.retrofit2:retrofit:$retrofitVersion",
+            retrofitGsonConverter: "com.squareup.retrofit2:converter-gson:$retrofitVersion",
+            okHttp3Logging       : "com.squareup.okhttp3:logging-interceptor:$okHttpVersion",
+            glide                : "com.github.bumptech.glide:glide:$glideVersion",
+
+            lifecycle            : "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion",
+            gson                 : "com.google.code.gson:gson:$googleGsonVersion",
+            coroutineCore        : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineCoreVersion",
+            javaInject           : "javax.inject:javax.inject:$javaInjectVersion",
+
+            /*implementation libs.androidx.appcompat
+            implementation libs.material
+            implementation libs.androidx.activity
+            implementation libs.androidx.constraintlayout
+            testImplementation libs.junit
+            androidTestImplementation libs.androidx.junit
+            androidTestImplementation libs.androidx.espresso.core*/
+    ]
+}
+
