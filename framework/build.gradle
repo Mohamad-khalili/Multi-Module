@@ -38,6 +38,10 @@ android {
     kotlinOptions {
         jvmTarget = '11'
     }
+
+    packagingOptions {
+        exclude 'META-INF/gradle/incremental.annotation.processors'
+    }
 }
 
 dependencies {

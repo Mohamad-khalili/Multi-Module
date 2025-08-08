@@ -41,8 +41,8 @@ ext {
     versionName = "1.0.0"
     hiltVersion = "1.1.1"
     coreKtx = "1.16.0"
-    junit = "4.13.2"
-    junitVersion = "1.2.1"
+    junitVersion = "4.13.2"
+    testJunitVersion = '1.1.3'
     espressoCoreVersion = "3.6.1"
     appCompatVersion = "1.7.1"
     materialVersion = "1.12.0"
@@ -65,6 +65,7 @@ ext {
             coreKtx              : "androidx.core:core-ktx:$coreKtx",
             material             : "com.google.android.material:material:$materialVersion",
             junit                : "junit:junit:$junitVersion",
+            testJunit              : "androidx.test.ext:junit:$testJunitVersion",
             espressoCore         : "androidx.test.espresso:espresso-core:$espressoCoreVersion",
             constraintLayout     : "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion",
             hilt                 : "com.google.dagger:hilt-android:$hiltVersion",
@@ -82,13 +83,7 @@ ext {
             coroutineCore        : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineCoreVersion",
             javaInject           : "javax.inject:javax.inject:$javaInjectVersion",
 
-            /*implementation libs.androidx.appcompat
-            implementation libs.material
-            implementation libs.androidx.activity
-            implementation libs.androidx.constraintlayout
-            testImplementation libs.junit
-            androidTestImplementation libs.androidx.junit
-            androidTestImplementation libs.androidx.espresso.core*/
+
     ]
 }
 

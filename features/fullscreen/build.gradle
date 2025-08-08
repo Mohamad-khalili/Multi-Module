@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.kept)
+    alias(libs.plugins.hilt)
 }
 
 //Declaring a variable to points to the ext list we added to in the common gradle
@@ -10,6 +11,10 @@ apply from: "$rootProject.projectDir/commons.gradle"
 apply from: "$rootProject.projectDir/commons.features.gradle"
 android {
     namespace 'com.multimodule.fullscreen'
+
+    packagingOptions {
+        exclude 'META-INF/gradle/incremental.annotation.processors'
+    }
 }
 dependencies {
     Map<String, String> dependencies = globalDependencies.commonDependencies

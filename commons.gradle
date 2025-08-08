@@ -9,6 +9,7 @@ dependencies {
     implementation  dependencies.appCompat
     implementation dependencies.material
     testImplementation dependencies.junit
+    androidTestImplementation dependencies.testJunit
     androidTestImplementation dependencies.espressoCore
     implementation dependencies.glide
 }

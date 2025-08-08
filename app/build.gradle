@@ -23,11 +23,6 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    packaging {
-        resources {
-            excludes.add("META-INF/gradle/incremental.annotation.processors")
-        }
-    }
 
     buildTypes {
         debug {
@@ -95,6 +90,10 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+    packagingOptions {
+        exclude 'META-INF/gradle/incremental.annotation.processors'
+    }
 }
 
 dependencies {
@@ -107,7 +106,6 @@ dependencies {
     implementation dependencies.appCompat
     implementation dependencies.coreKtx
     implementation dependencies.material
-    implementation dependencies.junit
     implementation dependencies.espressoCore
     implementation dependencies.constraintLayout
 

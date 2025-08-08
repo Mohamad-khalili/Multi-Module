@@ -41,6 +41,9 @@ android {
         viewBinding true
         buildConfig true
     }
+    packagingOptions {
+        exclude 'META-INF/gradle/incremental.annotation.processors'
+    }
 }
 
 dependencies {
@@ -54,4 +57,5 @@ dependencies {
     implementation dependencies.navigationUi
     implementation dependencies.gson
     implementation dependencies.coroutineCore
+    implementation dependencies.javaInject
 }
