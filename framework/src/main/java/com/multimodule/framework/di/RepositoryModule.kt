@@ -13,7 +13,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
 
-    @Singleton
     @Provides
+    @Singleton
     fun provideSplashRepo(api: SplashApi): SplashRepository = SplashRepositoryImpl(api)
 }

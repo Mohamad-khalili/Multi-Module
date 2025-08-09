@@ -15,6 +15,6 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideSplashIntractor(splashRepository: SplashRepository): SplashInteractor =
+    fun provideSplashInteractor(splashRepository: SplashRepository): SplashInteractor =
         SplashInteractorImpl(splashRepository)
 }
