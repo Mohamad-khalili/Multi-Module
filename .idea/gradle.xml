@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/commons" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/features" />
+            <option value="$PROJECT_DIR$/features/authentication" />
             <option value="$PROJECT_DIR$/features/fullscreen" />
             <option value="$PROJECT_DIR$/framework" />
           </set>
