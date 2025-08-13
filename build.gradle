@@ -57,6 +57,7 @@ ext {
     googleGsonVersion = "2.13.1"
     coroutineCoreVersion = "1.10.2"
     javaInjectVersion = '1'
+    dataStoreVersion = "1.1.7"
 
 
     commonDependencies = [
@@ -81,6 +82,7 @@ ext {
             gson                 : "com.google.code.gson:gson:$googleGsonVersion",
             coroutineCore        : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineCoreVersion",
             javaInject           : "javax.inject:javax.inject:$javaInjectVersion",
+            dataStore: "androidx.datastore:datastore-preferences:$dataStoreVersion"
 
 
     ]

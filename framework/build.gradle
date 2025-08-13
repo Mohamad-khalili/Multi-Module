@@ -57,4 +57,5 @@ dependencies {
     implementation dependencies.retrofitGsonConverter
     implementation dependencies.okHttp3Logging
     implementation dependencies.coroutineCore
+    implementation dependencies.dataStore
 }
