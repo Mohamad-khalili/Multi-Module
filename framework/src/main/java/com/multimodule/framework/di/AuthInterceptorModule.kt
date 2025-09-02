@@ -4,9 +4,14 @@ import com.multimodule.core.data.datasource.AuthLocalDataSource
 import com.multimodule.framework.network.AuthenticationInterceptor
 import com.multimodule.framework.network.UserAgent
 import com.multimodule.framework.network.apis.RefreshTokenApi
+import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+@Module
+@InstallIn(SingletonComponent::class)
 object AuthInterceptorModule {
 
     @Provides

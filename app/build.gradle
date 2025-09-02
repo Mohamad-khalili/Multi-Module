@@ -27,7 +27,9 @@ android {
     buildTypes {
         debug {
             buildConfigField "String", "VERSION_NAME" , "\"${defaultConfig.versionName}\""
-            buildConfigField "String", "CDN_HOST" , "\"https://beta-cdn.example.com\""
+            buildConfigField "String", "BASE_HOST", "\"https://beta-base.example.com\""
+            buildConfigField "String", "CDN_HOST", "\"https://beta-cdn.example.com\""
+            buildConfigField "String", "IDENTITY_HOST", "\"https://beta-identity.example.com\""
 
             resValue "string", "app_name", "MultiModule Beta"
 
@@ -50,7 +52,9 @@ android {
         }
         release {
             buildConfigField "String", "VERSION_NAME" , "\"${defaultConfig.versionName}\""
-            buildConfigField "String", "CDN_HOST" , "\"https://cdn.example.com\""
+            buildConfigField "String", "BASE_HOST", "\"https://base.example.com\""
+            buildConfigField "String", "CDN_HOST", "\"https://cdn.example.com\""
+            buildConfigField "String", "IDENTITY_HOST", "\"https://identity.example.com\""
 
             resValue "string", "app_name", "MultiModule"
 
@@ -102,6 +106,7 @@ dependencies {
     implementation project(':base')
     implementation project(':framework')
     implementation project(':features:fullscreen')
+    implementation project(':features:authentication')
 
     implementation dependencies.appCompat
     implementation dependencies.coreKtx

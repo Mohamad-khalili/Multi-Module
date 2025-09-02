@@ -1,0 +1,27 @@
+plugins {
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.kept)
+    alias(libs.plugins.hilt)
+}
+//Declaring a variable to points to the ext list we added to in the common gradle
+def globalDependencies = rootProject.ext
+apply from: "$rootProject.projectDir/commons.gradle"
+apply from: "$rootProject.projectDir/commons.features.gradle"
+
+android {
+    namespace 'com.multimodule.authentication'
+}
+
+dependencies {
+    implementation libs.androidx.appcompat
+    implementation libs.material
+    implementation libs.androidx.activity
+    implementation libs.androidx.constraintlayout
+
+
+//write only those dependencies which are only part of this module
+    //if it will be common for all features then just put in commons.features.gradle
+    Map<String, String> dependencies = globalDependencies.commonDependencies
+    implementation dependencies.lifecycle
+}

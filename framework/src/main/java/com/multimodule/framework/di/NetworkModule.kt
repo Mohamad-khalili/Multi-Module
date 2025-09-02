@@ -4,8 +4,8 @@ import com.google.gson.GsonBuilder
 import com.google.gson.Strictness
 import com.multimodule.commons.utils.BuildValues
 import com.multimodule.framework.di.qualifires.Base
-import com.multimodule.framework.di.qualifires.Beta
 import com.multimodule.framework.di.qualifires.Cdn
+import com.multimodule.framework.di.qualifires.Identity
 import com.multimodule.framework.di.qualifires.RenewToken
 import com.multimodule.framework.network.AuthenticationInterceptor
 import dagger.Module
@@ -28,12 +28,17 @@ object NetworkModule {
     @Provides
     @Singleton
     @Base
-    fun provideBaseUrl(): String = BuildValues.apiHostAddress()
+    fun provideBaseUrl(): String = BuildValues.baseHostAddress()
 
     @Provides
     @Singleton
     @Cdn
     fun provideCdnUrl(): String = BuildValues.cdnHostAddress()
+
+    @Provides
+    @Singleton
+    @Identity
+    fun provideIdentity(): String = BuildValues.identityHostAddress()
 
 
     @Provides
@@ -85,7 +90,7 @@ object NetworkModule {
     @RenewToken
     fun provideRetrofitWithoutAuthentication(
         converterFactory: Factory,
-        @Beta url: String,
+        @Identity url: String,
         networkInterceptor: HttpLoggingInterceptor
     ): Retrofit = Retrofit.Builder()
         .client(
@@ -114,11 +119,11 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    @Beta
-    fun provideBetaRetrofit(
+    @Base
+    fun provideBaseRetrofit(
         okHttpClient: OkHttpClient,
         converterFactory: Factory,
-        @Beta url: String
+        @Base url: String
     ): Retrofit = Retrofit.Builder()
         .client(okHttpClient)
         .baseUrl(url)

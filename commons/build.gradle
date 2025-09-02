@@ -22,7 +22,9 @@ android {
     buildTypes {
         debug {
             buildConfigField "String", "VERSION_NAME", "\"${defaultConfig.versionName}\""
+            buildConfigField "String", "BASE_HOST", "\"https://beta-base.example.com\""
             buildConfigField "String", "CDN_HOST", "\"https://beta-cdn.example.com\""
+            buildConfigField "String", "IDENTITY_HOST", "\"https://beta-identity.example.com\""
 
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -30,7 +32,10 @@ android {
         }
         release {
             buildConfigField "String", "VERSION_NAME", "\"${defaultConfig.versionName}\""
+            buildConfigField "String", "BASE_HOST", "\"https://base.example.com\""
             buildConfigField "String", "CDN_HOST", "\"https://cdn.example.com\""
+            buildConfigField "String", "IDENTITY_HOST", "\"https://identity.example.com\""
+
 
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
