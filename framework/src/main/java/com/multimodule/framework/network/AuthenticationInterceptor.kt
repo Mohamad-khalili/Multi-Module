@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 class AuthenticationInterceptor @Inject constructor(
     private val auth: AuthLocalDataSource,
-    private val api : RefreshTokenApi,
+    private val api: RefreshTokenApi,
     private val userAgent: UserAgent
 ) : Interceptor, Authenticator {
 
@@ -33,28 +33,33 @@ class AuthenticationInterceptor @Inject constructor(
 
 
     override fun intercept(chain: Interceptor.Chain): Response {
+
+        runBlocking { saveToken() }
+
+        val accessToken = runBlocking { auth.getAccessToken() }
         val originalRequest = chain.request()
         val authenticationRequest = originalRequest.newBuilder()
-            .addHeader(AUTH, BEAR + " " + auth.getAccessToken())
+            .addHeader(AUTH, "$BEAR $accessToken")
             .addHeader(USER_AGENT, userAgent.userAgentDetails())
 //            .addHeader(DEVICE_ID, auth.getAndroidId())
             .build()
 
-        if (accessTokenIsValid() || auth.getRefreshToken().isNullOrEmpty()){
+        if (accessTokenIsValid() || auth.getRefreshToken().isNullOrEmpty()) {
             return chain.proceed(authenticationRequest)
-        }else{
+        } else {
             return runBlocking {
-                when(val tokenResponse = getUpdatedToken()){
+                when (val tokenResponse = getUpdatedToken()) {
                     is Result.Success -> {
                         val it = tokenResponse.data.result
                         //saveToken(it)
                         val req = originalRequest.newBuilder()
                             .header(AUTH, BEAR + " ${it?.accessToken}")
-                            .addHeader(USER_AGENT,userAgent.userAgentDetails())
+                            .addHeader(USER_AGENT, userAgent.userAgentDetails())
                             .build()
                         chain.proceed(req)
                     }
-                    else ->{
+
+                    else -> {
                         chain.proceed(authenticationRequest)
                     }
                 }
@@ -65,14 +70,15 @@ class AuthenticationInterceptor @Inject constructor(
 
     override fun authenticate(route: Route?, response: Response): Request? {
         return runBlocking {
-            when(val tokenResponse = getUpdatedToken()){
-                is Result.Success ->{
+            when (val tokenResponse = getUpdatedToken()) {
+                is Result.Success -> {
                     val it = tokenResponse.data.result
                     //saveToken(it)
                     response.request.newBuilder()
-                        .header(AUTH,  BEAR + " ${it?.accessToken}")
+                        .header(AUTH, BEAR + " ${it?.accessToken}")
                         .build()
                 }
+
                 else -> {
                     auth.clearUserData()
                     //Launch login screen or sharedViewModel.restartApp(true) or ...
@@ -84,15 +90,15 @@ class AuthenticationInterceptor @Inject constructor(
 
 
     //call renewToken and get new accessToken
-    private suspend fun getUpdatedToken(): Result<ResultResponse<LoginResponse>>{
+    private suspend fun getUpdatedToken(): Result<ResultResponse<LoginResponse>> {
         val tokenInfo = RefreshTokenRequest(
             accessToken = auth.getAccessToken(),
             refreshToken = auth.getRefreshToken()
         )
-        return withContext(Dispatchers.IO){
+        return withContext(Dispatchers.IO) {
             return@withContext Api.result {
                 api.renewToken(
-                   req =  tokenInfo,
+                    req = tokenInfo,
                     userAgent = userAgent.userAgentDetails(),
                     ""
                 )
@@ -112,6 +118,13 @@ class AuthenticationInterceptor @Inject constructor(
 
         } else
             false
+    }
+
+    /**Test Data Store**/
+    private suspend fun saveToken() {
+        withContext(Dispatchers.IO) {
+            return@withContext auth.saveAccessToken("sdifjmnodjrfnbgodrjngboedrngoerg")
+        }
     }
 
 }
